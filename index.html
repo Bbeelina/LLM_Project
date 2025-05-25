@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Генератор текстов песен</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="logo">
+      <span>Сделано </span>
+      <span class="logo-name">LyricsLab</span>
+    </div>
+
+    <div class="container">
+      <h1>Генератор текстов песен</h1>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="topic">О чём песня:</label>
+          <input
+            type="text"
+            id="topic"
+            placeholder="Введите тему песни"
+            required
+          />
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="genre">Жанр:</label>
+            <select id="genre">
+              <option value="рэп">Рэп</option>
+              <option value="рок">Рок</option>
+              <option value="поп">Поп</option>
+              <option value="хип-хоп">Хип-хоп</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="mood">Настроение:</label>
+            <select id="mood">
+              <option value="весёлым">Весёлым</option>
+              <option value="грустным">Грустным</option>
+              <option value="энергичным">Энергичным</option>
+              <option value="спокойным">Спокойным</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="audience">Аудитория:</label>
+            <select id="audience">
+              <option value="для детей">Дети</option>
+              <option value="для молодёжи">Молодёжь</option>
+              <option value="для взрослых">Взрослые</option>
+              <option value="для всех возрастов">Без разницы</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="rhyme">Рифма:</label>
+            <select id="rhyme">
+              <option value="обязательно">Должна быть</option>
+              <option value="без рифмы">Отсутствует</option>
+              <option value="по желанию">Может быть</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="verses">Куплетов:</label>
+            <select id="verses">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="произвольное количество">Без разницы</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="choruses">Припевов:</label>
+            <select id="choruses">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="произвольное количество">Без разницы</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="generateSong()">Сгенерировать песню</button>
+      </div>
+
+      <div class="result" id="result">
+        <h3>Ваша песня:</h3>
+        <div id="song-text"></div>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
