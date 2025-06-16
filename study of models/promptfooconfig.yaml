@@ -1,0 +1,37 @@
+prompts:
+  - "Напиши текст песни в жанре {{genre}} с {{mood}} настроением. Тема: {{theme}}. Аудитория: {{audience}}. В тексте песни рифма {{rhyme}}. Количество куплетов – {{verses}}, припевов – {{choruses}}."
+
+providers:
+  - id: mistral:mistral-medium-latest
+    config:
+      apiKey: ""
+  - id: openai:gpt-4.1-mini
+    config:
+      apiKey: ""
+
+tests:
+  - vars:
+      genre: поп
+      mood: спокойным
+      theme: Выходной с семьей в уютном кафе
+      audience: взрослые
+      rhyme: может как быть, так и не быть
+      verses: 2
+      choruses: 2
+  - vars:
+      genre: хип-хоп
+      mood: энергичным
+      theme: Поднятие по карьерной лестнице получилось трудным, но стоит того
+      audience: взрослые
+      rhyme: должна быть
+      verses: 3
+      choruses: 4
+  - vars:
+      genre: рок
+      mood: веселым
+      theme: День рождения в лазертаге
+      audience: дети
+      rhyme: отсутствует
+      verses: 2
+      choruses: 1
+# И многие другие запросы для тестов прописывали здесь
