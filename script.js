@@ -1,3 +1,6 @@
+const MISTRAL_API_URL = "api_url"; // Уточните точный URL API
+const MISTRAL_API_KEY = "api_key"; // Замените на реальный ключ
+
 async function generateSong() {
   // Получаем все значения
   const topic = document.getElementById("topic").value.trim();
@@ -11,14 +14,6 @@ async function generateSong() {
   // Проверка на пустую тему
   if (!topic) {
     showError("Пожалуйста, введите тему песни");
-    document.getElementById("topic").focus();
-    return;
-  }
-
-  // Проверка на конкретную тему
-  const predefinedTopic = "птицы, улетающие на юг";
-  if (topic.toLowerCase() !== predefinedTopic) {
-    showError(`Тема должна быть "${predefinedTopic}". Это пока демо-версия, здесь не подключен API :'(`);
     document.getElementById("topic").focus();
     return;
   }
@@ -39,7 +34,7 @@ async function generateSong() {
     Что касается длины: количество куплетов - ${verses}, количество припевов - ${choruses}.`;
 
     // Для демо используем локальную генерацию
-    const generatedSong = generateMockSong(prompt, genre);
+    const generatedSong = await callMistralAPI(prompt);
 
     // Отображаем результат с учетом жанра
     songText.innerHTML = generatedSong;
@@ -51,19 +46,36 @@ async function generateSong() {
   }
 }
 
-function generateMockSong(prompt, genre) {
-  // Болванка чтобы что-то выводилось
-  const genreTemplates = {
-    рэп: `[Куплет 1]\nЯ летаю над городом, вижу всё свысока\nМои строки - как птицы, не знают порока\n\n[Припев]\nМы свободны, как ветер, нам не нужны оковы\nЭта бита - мой воздух, эти строки - основы\n\n[Куплет 2]\nТы спросишь куда я? На юг, где тепло\nГде море и солнце и люди светло\n\n[Припев]\nМы свободны, как ветер, нам не нужны оковы\nЭта бита - мой воздух, эти строки - основы`,
+async function callMistralAPI(prompt) {
+  const response = await fetch(MISTRAL_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${MISTRAL_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: "mistral-medium",
+      messages: [{
+        role: "user",
+        content: prompt
+      }],
+      temperature: 0.7,
+      max_tokens: 1000
+    })
+  });
 
-    рок: `[Вступление]\nГитара кричит, барабаны гремят\nМы улетаем, нам не нужен билет\n\n[Куплет 1]\nКрылья расправлены, ветер в лицо\nТысячи миль нам не страшны до конца\n\n[Припев]\nЛЕТИМ! В пекло и во тьму!\nЛЕТИМ! Я кричу тебе!\nЮг где-то там вдали\nНо нам всё равно куда мы летим!`,
+  if (!response.ok) {
+    throw new Error(`API request failed with status ${response.status}`);
+  }
 
-    поп: `(Куплет 1)\nТы и я, мы как птицы в небе\nЛетим туда, где солнце светит\n\n(Припев)\nНа юг, на юг, где тепло\nНа юг, на юг, нам так легко\n\n(Куплет 2)\nОблака как вата под нами\nИ мы свободны с тобой, я знаю`,
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
 
-    "хип-хоп": `[Интро]\nYo, это наш полёт, check it out\n\n[Куплет 1]\nБёрды в воздухе, мы на wave\nТы не догонишь, даже если brave\n\n[Припев]\nFly high, touch the sky\nNever look back, just say goodbye\n\n[Куплет 2]\nЮг зовёт нас, там наш spot\nIce cold lemonade и жаркий lot`,
-  };
-
-  return genreTemplates[genre];
+function generateMockSong() {
+  // Теперь эта функция не используется в основном потоке
+  // Может быть полезна для тестирования интерфейса
+  return "[Тестовый текст песни]\n\nЭто демо-версия. При подключении API здесь будет реальный текст.";
 }
 
 // Функции для работы с ошибками остаются без изменений
